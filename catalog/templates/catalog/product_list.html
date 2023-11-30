@@ -1,0 +1,44 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block content %}
+    <div class="row text-center">
+        {% for object in object_list %}
+            <div class="col-4">
+                <div class="card mb-4 box-shadow" >
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+                    </div>
+                    <div class="card-body" data-height="1000">
+                        <img src="{% mymedia_tag object.img %}" width="300" height="300">
+                        <div>
+                            {% for version in object.version_set.all %}
+                                {% if version.activate %}
+                                    <p>Активная версия:
+                                        {{ version.name }}
+                                        {{ version.number }}
+                                    <p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div>
+                            <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:product' object.pk %}">Описание</a>
+                            {% if object.author == user or perms.catalog.change_product %}
+                                <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:update_product' object.pk %}">Редактировать</a>
+                            {% endif %}
+                            {% if object.author == user or perms.catalog.delete_product %}
+                                <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:delete_product' object.pk %}">Удалить</a>
+                            {% endif %}
+                            {% if perms.catalog.set_publication %}
+                                {% if object.publication %}
+                                    <a class="p-2 btn btn-outline-danger" href="{% url 'catalog:publication' object.pk %}">Выкл</a>
+                                {% else %}
+                                    <a class="p-2 btn btn-outline-success" href="{% url 'catalog:publication' object.pk %}">Вкл</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

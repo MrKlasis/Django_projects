@@ -1,0 +1,26 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="col-12">
+    <form class="row" method="post">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Восстановление пароля
+                </h3>
+            </div>
+            <div class="card-body">
+                {% csrf_token %}
+                Введите свой email
+                <label for="email"></label>
+                <input type="text" name="email" class="form-control" id="email" placeholder="email">
+                <button type="submit" class="btn btn-success">Восстановить</button>
+            </div>
+
+            <div class="card-footer"></div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

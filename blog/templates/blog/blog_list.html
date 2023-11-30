@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block content %}
+    <div class="col-12 mb-5">
+        <a class="btn btn-outline-primary" href="{% url 'blog:create_blog' %}">Создать</a>
+    </div>
+    <div class="row text-center">
+        {% for object in object_list %}
+            <div class="col-3">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">{{ object.title }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <img src="{% mymedia_tag object.img %}" width="100">
+                        <div>
+                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:blog' object.pk %}">Просмотр</a>
+                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:update_blog' object.pk %}">Редактировать</a>
+                            <a class="p-2 btn btn-outline-primary" href="{% url 'blog:delete_blog' object.pk %}">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div>
+    </div>
+{% endblock %}

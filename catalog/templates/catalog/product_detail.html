@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block content %}
+    <div class="container">
+        <div class="row text-start">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-body">
+                        <img src="{{object.img|mymedia_filter}}" width="500">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card mb-4 box-shadow">
+                    <h4>Оисание</h4>
+                    {{ object.description|description_filter }}
+                    {% for version in object.version_set.all %}
+                        {% if version.activate %}
+                            <p>Активная версия:{{ version.name }}{{ version.number }}<p>
+                        {% endif %}
+                    {% endfor %}
+                    <h4>Цена: {{ object.price }} руб. </h4>
+                </div>
+            </div>
+            <div class="col-12">
+                {% if object.author == user or perms.catalog.change_product %}
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:update_product' object.pk %}">Редактировать</a>
+                {% endif %}
+                {% if object.author == user or perms.catalog.delete_product %}
+                    <a class="p-2 btn btn-outline-primary" href="{% url 'catalog:delete_product' object.pk %}">Удалить</a>
+                {% endif %}
+                <a class="p-2 btn btn-outline-primary" href="#">Купить</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
