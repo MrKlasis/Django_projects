@@ -16,7 +16,7 @@ class UserHasPermissionMixin:
         if self.model.objects.get(pk=self.kwargs.get('pk')).author == self.request.user:
             return True
         # если не является, то следуем ограничениям прав permission_required
-        return super().has_permission()
+        return False
 
 
 class CategoryListView(LoginRequiredMixin, ListView):
@@ -40,9 +40,9 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return context_data
 
     def form_valid(self, form):
-        self.object = form.save()
-        self.object.author = self.request.user
-        self.object.save()
+        self.object = form.save(commit=False)  # Сохраняем форму, но не коммитим её в базу данных
+        self.object.author = self.request.user  # Устанавливаем автора
+        self.object.save()  # Теперь сохраняем объект в базу данных
         return super().form_valid(form)
 
 

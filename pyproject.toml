@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "django-projects"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "django_projects"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^5.0"
+pytils = "^0.4.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
