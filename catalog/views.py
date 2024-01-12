@@ -4,6 +4,8 @@ from django.forms import inlineformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.http import HttpResponseForbidden
+
 
 from catalog.forms import ProductForm, VersionForm, ModeratorProductForm
 from catalog.models import Category, Product, Version
@@ -144,3 +146,10 @@ def contacts(request):
         'title': 'Контакты '
     }
     return render(request, 'catalog/contacts.html', context)
+
+
+def edit_product(request, product_id):
+    product = get_object_or_404(Product, pk=product_id)
+
+    if not product.can_be_changed_by(request.user):
+        return HttpResponseForbidden("Вы не можете редактировать этот продукт")

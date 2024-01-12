@@ -1,6 +1,7 @@
 from django import forms
 from django.db import models
 from django.utils.datetime_safe import date
+from django.contrib.auth.models import User
 
 NULLABLE = {'blank': True, 'null': True}
 
@@ -53,3 +54,10 @@ class Version(models.Model):
     class Meta:
         verbose_name = 'версия'
         verbose_name_plural = 'версии'
+
+
+owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+def can_be_changed_by(self, user):
+    return user == self.owner
