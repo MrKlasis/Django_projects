@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from .permissions import create_moderator_group
+from catalog.permissions import create_moderator_group
 
 from catalog.models import NULLABLE
 from users.utils import create_token
